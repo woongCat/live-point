@@ -43,67 +43,54 @@
 
 ---
 
-### 남은 작업 (Tasks 7-14)
+### Batch 3 (Tasks 7-13) - Frontend 저장/훅/통합
 
-#### Task 7: IndexedDB 저장 (Dexie) ⏳
-**파일:** `frontend/src/db.ts`
-- Dexie 클래스로 `livepoint` DB 생성
-- `sessions` 테이블 (id, createdAt 인덱스)
-- `saveSession()`, `loadAllSessions()`, `deleteSession()` 함수
+| Task | 상태 | 커밋 |
+|------|------|------|
+| Task 7: IndexedDB 저장 (Dexie) | ✅ 완료 | 미커밋 |
+| Task 8: 오디오 캡처 훅 | ✅ 완료 | 미커밋 |
+| Task 9: WebSocket 훅 | ✅ 완료 | 미커밋 |
+| Task 10: HistoryPanel | ✅ 완료 | 미커밋 |
+| Task 11: TranscriptFlow | ✅ 완료 | 미커밋 |
+| Task 12: PointPanel | ✅ 완료 | 미커밋 |
+| Task 13: App 컴포넌트 통합 | ✅ 완료 | 미커밋 |
 
-#### Task 8: 오디오 캡처 훅 ⏳
-**파일:** `frontend/src/hooks/useAudioCapture.ts`
-- `navigator.mediaDevices.getUserMedia()` 로 마이크 접근
-- `ScriptProcessorNode`로 오디오 처리
-- Float32 → Int16 변환 후 콜백 전달
-- 16kHz mono PCM 출력
+**추가/수정된 파일:**
+- `frontend/src/db.ts` - Dexie 기반 세션 저장/로드/삭제
+- `frontend/src/hooks/useAudioCapture.ts` - 마이크 캡처 + PCM 변환
+- `frontend/src/hooks/useWebSocket.ts` - WS 연결/재연결/전송
+- `frontend/src/components/HistoryPanel.tsx` - 세션 목록 + 새 세션
+- `frontend/src/components/TranscriptFlow.tsx` - 실시간 전사 표시
+- `frontend/src/components/PointPanel.tsx` - 요지 카드 + 복사/내보내기
+- `frontend/src/components/RecordButton.tsx` - 녹음 시작/중지
+- `frontend/src/App.tsx` - 전체 레이아웃 통합 + 저장/WS/오디오 연결
+- `frontend/src/stores/sessionStore.ts` - 세션 리스트 동기화 개선
+- `frontend/src/index.css` - fade-in 애니메이션 추가
+- `frontend/src/App.css` - 기본 Vite 스타일 제거
 
-#### Task 9: WebSocket 훅 ⏳
-**파일:** `frontend/src/hooks/useWebSocket.ts`
-- `ws://localhost:8000/ws` 연결 관리
-- `onTranscript`, `onPointChunk`, `onPointComplete` 콜백
-- `sendAudio()`, `sendPause()`, `sendReset()` 메서드
-- 자동 재연결 (3초 후)
+**참고:**
+- 침묵 감지 타이머 1.5초
+- 세션 생성 시 목록에 즉시 반영 + 세션 업데이트 시 목록 동기화
 
-#### Task 10: HistoryPanel ⏳
-**파일:** `frontend/src/components/HistoryPanel.tsx`
-- 좌측 사이드바 (w-64)
-- "새 세션" 버튼
-- 세션 목록 (제목, 날짜, 포인트 개수)
-- 클릭 시 세션 로드
+---
 
-#### Task 11: TranscriptFlow ⏳
-**파일:** `frontend/src/components/TranscriptFlow.tsx`
-- 가운데 메인 영역
-- 실시간 전사 텍스트 표시
-- 녹음 중 표시 (빨간 점 + 커서)
-- 자동 스크롤
+### Batch 4 - 로컬 LLM 전환
 
-#### Task 12: PointPanel ⏳
-**파일:** `frontend/src/components/PointPanel.tsx`
-- 우측 사이드바 (w-80)
-- 추출된 요지 카드 목록
-- 생성 중인 요지 (파란색 배경)
-- 복사 / 내보내기 버튼
+- `backend/llm_service.py`를 LM Studio OpenAI 호환 엔드포인트로 변경
+- 스트리밍 처리 유지 + 연결 오류/타임아웃 처리 추가
+- 시스템 프롬프트를 한국어 요지 중심으로 정리
 
-#### Task 13: App 컴포넌트 통합 ⏳
-**파일:**
-- `frontend/src/components/RecordButton.tsx` - 녹음 시작/중지 버튼
-- `frontend/src/App.tsx` - 전체 레이아웃 조립
+---
 
-**구조:**
-```
-┌─────────────────────────────────────────────────┐
-│ Header: live-point [RecordButton]              │
-├──────────┬────────────────────┬─────────────────┤
-│ History  │   TranscriptFlow   │   PointPanel   │
-│ Panel    │                    │                │
-│ (w-64)   │     (flex-1)       │    (w-80)      │
-└──────────┴────────────────────┴─────────────────┘
-```
+### Batch 5 - Whisper 라이브러리 교체
 
-- 침묵 감지 (1.5초) → `sendPause()` 호출
-- 세션 자동 저장 (IndexedDB)
+- `backend/whisper_service.py`를 openai/whisper 기반으로 변경
+- `backend/requirements.txt`에 `openai-whisper` 반영
+- `backend/pyproject.toml` 의존성도 `openai-whisper`로 정리 (faster-whisper 제거)
+
+---
+
+### 남은 작업 (Task 14)
 
 #### Task 14: 전체 연동 테스트 ⏳
 1. Backend 실행: `uvicorn main:app --reload --port 8000`
