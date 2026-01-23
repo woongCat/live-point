@@ -1,7 +1,7 @@
 from openai import APIConnectionError, APITimeoutError, OpenAI
 
 BASE_URL = "http://localhost:1234/v1"
-MODEL_NAME = "qwen3-4b-instruct"
+MODEL_NAME = "qwen3-4b"
 REQUEST_TIMEOUT = 12.0
 ERROR_MESSAGE = "LLM 서버에 연결할 수 없습니다."
 

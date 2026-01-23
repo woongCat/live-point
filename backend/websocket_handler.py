@@ -47,8 +47,8 @@ async def websocket_endpoint(websocket: WebSocket):
                 buffered = audio_buffer.add(audio_chunk)
 
                 if buffered:
-                    # Whisper 전사
-                    text = whisper_service.transcribe(buffered)
+                    # Whisper 전사 (비동기)
+                    text = await whisper_service.transcribe_async(buffered)
                     if text:
                         transcript_buffer += " " + text
                         await websocket.send_json({
