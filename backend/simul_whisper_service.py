@@ -44,11 +44,14 @@ class SimulWhisperService:
         from simulstreaming_whisper import simul_asr_factory
 
         # Build args namespace matching simulstreaming_whisper.py expectations
+        # model_path should be HuggingFace repo for MLX models
+        model_path = f"mlx-community/whisper-{self.model_name}-mlx"
+
         args = Namespace(
             log_level="INFO",
             beams=1,  # Greedy decoding for real-time
-            decoder="mlx",
-            model_path=None,  # Auto-detect
+            decoder=None,  # Auto-select (greedy for beams=1)
+            model_path=model_path,
             model_name=self.model_name,
             cif_ckpt_path=None,
             frame_threshold=25,
