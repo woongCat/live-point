@@ -1,6 +1,6 @@
 # Lightning-SimulWhisper Integration Progress
 
-## Status: In Progress
+## Status: In Progress (Batch 1 Complete)
 
 ## Completed Tasks
 
@@ -15,10 +15,12 @@
 - Verified MLX import works
 - Committed: `deps: add MLX and Lightning-SimulWhisper dependencies`
 
-## Pending Tasks
+### Task 3: Update .env.example with New Environment Variables ✅
+- Added WHISPER_LANGUAGE, USE_COREML, FORCE_FALLBACK settings
+- Added LLM_BASE_URL, LLM_MODEL, LLM_TIMEOUT for LM Studio
+- Committed: `config: add SimulWhisper environment variables`
 
-### Task 3: Update .env.example with New Environment Variables
-- Add WHISPER_MODEL, WHISPER_LANGUAGE, USE_COREML, FORCE_FALLBACK settings
+## Pending Tasks
 
 ### Task 4: Create SimulWhisperService Wrapper
 - Create `backend/simul_whisper_service.py` with streaming interface
