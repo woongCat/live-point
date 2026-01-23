@@ -35,11 +35,12 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       transcript: '',
       points: [],
     };
-    set({
+    set((state) => ({
+      sessions: [newSession, ...state.sessions],
       currentSession: newSession,
       currentTranscript: '',
       currentPointText: '',
-    });
+    }));
   },
 
   loadSession: (id: string) => {
@@ -54,13 +55,24 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   },
 
   appendTranscript: (text: string) => {
-    set(state => ({
-      currentTranscript: state.currentTranscript + ' ' + text,
-      currentSession: state.currentSession ? {
+    set((state) => {
+      if (!state.currentSession) {
+        return { currentTranscript: state.currentTranscript + ' ' + text };
+      }
+
+      const updatedSession = {
         ...state.currentSession,
         transcript: state.currentSession.transcript + ' ' + text,
-      } : null,
-    }));
+      };
+
+      return {
+        currentTranscript: state.currentTranscript + ' ' + text,
+        currentSession: updatedSession,
+        sessions: state.sessions.map((session) =>
+          session.id === updatedSession.id ? updatedSession : session,
+        ),
+      };
+    });
   },
 
   setPointText: (text: string) => {
@@ -80,13 +92,24 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       sourceText,
       point,
     };
-    set(state => ({
-      currentPointText: '',
-      currentSession: state.currentSession ? {
+    set((state) => {
+      if (!state.currentSession) {
+        return { currentPointText: '' };
+      }
+
+      const updatedSession = {
         ...state.currentSession,
         points: [...state.currentSession.points, newPoint],
-      } : null,
-    }));
+      };
+
+      return {
+        currentPointText: '',
+        currentSession: updatedSession,
+        sessions: state.sessions.map((session) =>
+          session.id === updatedSession.id ? updatedSession : session,
+        ),
+      };
+    });
   },
 
   setRecording: (recording: boolean) => {
