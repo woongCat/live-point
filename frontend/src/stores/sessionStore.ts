@@ -10,7 +10,7 @@ interface SessionState {
   isRecording: boolean;
 
   // Actions
-  startNewSession: () => void;
+  startNewSession: (name?: string) => void;
   loadSession: (id: string) => void;
   appendTranscript: (text: string) => void;
   setPointText: (text: string) => void;
@@ -27,11 +27,12 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   currentPointText: '',
   isRecording: false,
 
-  startNewSession: () => {
+  startNewSession: (name?: string) => {
+    const defaultTitle = `세션 ${new Date().toLocaleString('ko-KR')}`;
     const newSession: Session = {
       id: uuid(),
       createdAt: new Date(),
-      title: `세션 ${new Date().toLocaleString('ko-KR')}`,
+      title: name?.trim() || defaultTitle,
       transcript: '',
       points: [],
     };

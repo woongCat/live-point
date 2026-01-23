@@ -15,7 +15,7 @@ export function useWebSocket({
   onPointComplete,
 }: UseWebSocketOptions) {
   const wsRef = useRef<WebSocket | null>(null);
-  const reconnectTimeoutRef = useRef<number>();
+  const reconnectTimeoutRef = useRef<number | undefined>(undefined);
   const shouldReconnectRef = useRef(true);
 
   const connect = useCallback(() => {

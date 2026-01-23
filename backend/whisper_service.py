@@ -1,11 +1,13 @@
 import asyncio
 import os
+
 import numpy as np
 import whisper
 
+
 class WhisperService:
     def __init__(self):
-        model_size = os.getenv("WHISPER_MODEL", "medium")
+        model_size = os.getenv("WHISPER_MODEL", "turbo")
         self.model = whisper.load_model(model_size)
 
     def transcribe(self, audio_data: bytes) -> str:
@@ -13,7 +15,9 @@ class WhisperService:
         if not audio_data:
             return ""
 
-        audio_np = np.frombuffer(audio_data, dtype=np.int16).astype(np.float32) / 32768.0
+        audio_np = (
+            np.frombuffer(audio_data, dtype=np.int16).astype(np.float32) / 32768.0
+        )
 
         result = self.model.transcribe(
             audio_np,
@@ -30,5 +34,6 @@ class WhisperService:
     async def transcribe_async(self, audio_data: bytes) -> str:
         """비동기 전사"""
         return await asyncio.to_thread(self.transcribe, audio_data)
+
 
 whisper_service = WhisperService()

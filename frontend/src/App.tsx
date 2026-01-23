@@ -15,7 +15,7 @@ const PAUSE_THRESHOLD_MS = 1500;
 function App() {
   const { currentSession, appendTranscript, appendPointText, addPoint, setSessions } =
     useSessionStore();
-  const pauseTimerRef = useRef<number>();
+  const pauseTimerRef = useRef<number | undefined>(undefined);
 
   const { connect, sendAudio, sendPause } = useWebSocket({
     url: WS_URL,

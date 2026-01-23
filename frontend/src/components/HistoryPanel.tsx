@@ -1,19 +1,32 @@
+import { useState } from 'react';
 import { useSessionStore } from '../stores/sessionStore';
+import { SessionNameModal } from './SessionNameModal';
 
 export function HistoryPanel() {
   const { sessions, currentSession, loadSession, startNewSession } =
     useSessionStore();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleNewSession = (name: string) => {
+    startNewSession(name);
+  };
 
   return (
     <div className="w-64 bg-gray-50 border-r border-gray-200 flex flex-col h-full">
       <div className="p-4 border-b border-gray-200">
         <button
-          onClick={startNewSession}
+          onClick={() => setIsModalOpen(true)}
           className="w-full py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
         >
           + 새 세션
         </button>
       </div>
+
+      <SessionNameModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleNewSession}
+      />
 
       <div className="flex-1 overflow-y-auto">
         {sessions.map((session) => (
