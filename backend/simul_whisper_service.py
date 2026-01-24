@@ -45,7 +45,11 @@ class SimulWhisperService:
 
         # Build args namespace matching simulstreaming_whisper.py expectations
         # model_path should be HuggingFace repo for MLX models
-        model_path = f"mlx-community/whisper-{self.model_name}-mlx"
+        # Note: turbo models don't have -mlx suffix
+        if "turbo" in self.model_name:
+            model_path = f"mlx-community/whisper-{self.model_name}"
+        else:
+            model_path = f"mlx-community/whisper-{self.model_name}-mlx"
 
         args = Namespace(
             log_level="INFO",
