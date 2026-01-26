@@ -12,13 +12,13 @@ import { useAudioCapture } from './hooks/useAudioCapture';
 import { useWebSocket } from './hooks/useWebSocket';
 import { useSilenceDetection } from './hooks/useSilenceDetection';
 import { loadAllSessions, saveSession } from './db';
-import { SILENCE_TIMEOUT_MS, SCORE_FOR_SUMMARY } from './utils/gameConstants';
+import { SILENCE_TIMEOUT_MS } from './utils/gameConstants';
 
 const WS_URL = 'ws://localhost:8000/ws';
 const PAUSE_THRESHOLD_MS = 1500;
 
 function App() {
-  const { currentSession, appendTranscript, appendPointText, addPoint, setSessions } =
+  const { currentSession, currentTranscript, appendTranscript, appendPointText, addPoint, setSessions } =
     useSessionStore();
   const { gameState, showConsent, endGame } = useGameStore();
   const pauseTimerRef = useRef<number | undefined>(undefined);
@@ -75,12 +75,12 @@ function App() {
   };
 
   const handleGameEnd = useCallback(
-    (score: number, shouldSummarize: boolean) => {
-      if (shouldSummarize && currentSession?.currentTranscript?.trim()) {
+    (_score: number, shouldSummarize: boolean) => {
+      if (shouldSummarize && currentTranscript?.trim()) {
         sendPause();
       }
     },
-    [currentSession?.currentTranscript, sendPause],
+    [currentTranscript, sendPause],
   );
 
   useEffect(() => {

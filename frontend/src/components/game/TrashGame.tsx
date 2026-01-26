@@ -45,8 +45,8 @@ export function TrashGame({ onGameEnd }: TrashGameProps) {
     incrementHits,
   } = useGameStore();
 
-  const frameRef = useRef<number>();
-  const chargeRef = useRef<number>();
+  const frameRef = useRef<number | undefined>(undefined);
+  const chargeRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     if (!isCharging || gameState.status !== 'playing') {
