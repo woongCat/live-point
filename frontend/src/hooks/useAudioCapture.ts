@@ -28,7 +28,7 @@ export function useAudioCapture({ onAudioData, sampleRate = 16000 }: UseAudioCap
       audioContextRef.current = new AudioContext({ sampleRate });
 
       const source = audioContextRef.current.createMediaStreamSource(stream);
-      const processor = audioContextRef.current.createScriptProcessor(4096, 1, 1);
+      const processor = audioContextRef.current.createScriptProcessor(2048, 1, 1);
 
       processor.onaudioprocess = (event) => {
         const inputData = event.inputBuffer.getChannelData(0);
