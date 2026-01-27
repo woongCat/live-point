@@ -1,11 +1,12 @@
-import { useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import './App.css';
 import { HistoryPanel } from './components/HistoryPanel';
 import { TranscriptFlow } from './components/TranscriptFlow';
 import { PointPanel } from './components/PointPanel';
 import { RecordButton } from './components/RecordButton';
-import { TrashGame } from './components/game';
+import { TrashGame, GameStartButton } from './components/game';
 import { HeaderAd, FooterAd } from './components/ads';
+import { RoguelikeGame } from './components/roguelike';
 import { useSessionStore } from './stores/sessionStore';
 import { useGameStore } from './stores/gameStore';
 import { useAudioCapture } from './hooks/useAudioCapture';
@@ -21,6 +22,7 @@ function App() {
   const { currentSession, currentTranscript, appendTranscript, appendPointText, addPoint, setSessions } =
     useSessionStore();
   const { gameState, showConsent, endGame } = useGameStore();
+  const [showRoguelike, setShowRoguelike] = useState(false);
   const pauseTimerRef = useRef<number | undefined>(undefined);
 
   const { resetTimer } = useSilenceDetection({
@@ -65,6 +67,9 @@ function App() {
   const handleStart = async () => {
     connect();
     await startCapture();
+  };
+
+  const handleGameStart = () => {
     showConsent();
   };
 
@@ -97,7 +102,16 @@ function App() {
     <div className="h-screen flex flex-col bg-white pb-[90px]">
       <header className="h-14 border-b border-gray-200 flex items-center justify-between px-4">
         <h1 className="text-xl font-bold text-gray-800">live-point</h1>
-        <RecordButton onStart={handleStart} onStop={handleStop} />
+        <div className="flex gap-2">
+          <button
+            onClick={() => setShowRoguelike(true)}
+            className="px-4 py-2 rounded-lg font-medium bg-indigo-500 text-white hover:bg-indigo-600 transition-all"
+          >
+            ⚔️ 회의
+          </button>
+          <GameStartButton onClick={handleGameStart} />
+          <RecordButton onStart={handleStart} onStop={handleStop} />
+        </div>
       </header>
 
       <HeaderAd />
@@ -109,6 +123,7 @@ function App() {
       </main>
 
       <TrashGame onGameEnd={handleGameEnd} />
+      {showRoguelike && <RoguelikeGame onClose={() => setShowRoguelike(false)} />}
       <FooterAd />
     </div>
   );

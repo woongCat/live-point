@@ -92,7 +92,7 @@ export function applyEnemyTurn(state: CombatState, focus: number): { enemies: Co
   return { enemies, playerBlock, focus: currentFocus, focusLost };
 }
 
-export function applySeatBonus(card: CardDef, seat: SeatDef | null): { costReduction: number } {
+export function applySeatBonus(_card: CardDef, seat: SeatDef | null): { costReduction: number } {
   if (!seat?.effect) return { costReduction: 0 };
   if (seat.effect.type === 'cost_reduction') {
     return { costReduction: seat.effect.value };

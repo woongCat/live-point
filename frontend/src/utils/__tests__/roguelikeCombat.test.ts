@@ -2,7 +2,6 @@ import { describe, it, expect } from 'vitest';
 import {
   applyCardEffects,
   applyEnemyTurn,
-  applySeatBonus,
   checkCombatEnd,
 } from '../roguelikeCombat';
 import type { CombatState, CardDef, SeatDef } from '../../types/roguelike';
