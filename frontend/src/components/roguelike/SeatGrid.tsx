@@ -14,7 +14,7 @@ export function SeatGrid({ currentSeatId, energy, onMoveSeat }: SeatGridProps) {
 
   return (
     <div className="flex flex-col gap-1 p-2 bg-gray-800 rounded-lg">
-      <div className="text-[10px] text-gray-500 text-center mb-1">좌석 (이동: ⚡1)</div>
+      <div className="text-[8px] text-gray-500 text-center mb-0.5">좌석 (⚡1)</div>
       {rows.map(row => (
         <div key={row} className="flex gap-1 justify-center">
           {layout.seats.filter(s => s.row === row).map(seat => {
@@ -25,7 +25,7 @@ export function SeatGrid({ currentSeatId, energy, onMoveSeat }: SeatGridProps) {
                 key={seat.id}
                 disabled={!canMove}
                 onClick={() => canMove && onMoveSeat(seat.id)}
-                className={`w-14 h-10 rounded text-[9px] transition-all
+                className={`w-11 h-8 rounded text-[7px] transition-all
                   ${isCurrent ? 'bg-blue-700 ring-1 ring-blue-400' : canMove ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-700 opacity-50'}`}
                 title={seat.effect ? `${seat.name}: ${JSON.stringify(seat.effect)}` : seat.name}
               >

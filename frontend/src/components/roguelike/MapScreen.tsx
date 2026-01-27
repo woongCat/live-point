@@ -31,8 +31,8 @@ export function MapScreen() {
   }
 
   return (
-    <div className="flex flex-col items-center gap-2 p-6 overflow-y-auto h-full">
-      <h2 className="text-lg font-bold mb-4">회의 맵</h2>
+    <div className="flex flex-col items-center gap-1.5 p-3 overflow-y-auto h-full">
+      <h2 className="text-sm font-bold mb-2">회의 맵</h2>
       {rows.map(row => {
         const nodesInRow = mapNodes.filter(n => n.row === row);
         return (

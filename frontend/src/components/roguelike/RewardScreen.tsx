@@ -14,17 +14,17 @@ export function RewardScreen() {
   }, [run.classId]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-full gap-6">
-      <h2 className="text-xl font-bold">전투 승리!</h2>
-      <p className="text-gray-400">카드 1장을 선택하세요 (+ 15G)</p>
-      <div className="flex gap-4">
+    <div className="flex flex-col items-center justify-center h-full gap-3 p-3">
+      <h2 className="text-base font-bold">전투 승리!</h2>
+      <p className="text-xs text-gray-400">카드 1장을 선택하세요 (+ 15G)</p>
+      <div className="flex gap-2">
         {rewardCards.map(card => (
           <div key={card.id} className="cursor-pointer" onClick={() => pickRewardCard(card.id)}>
             <CardComponent cardId={card.id} playable={true} onPlay={() => pickRewardCard(card.id)} />
           </div>
         ))}
       </div>
-      <button onClick={skipReward} className="text-gray-400 hover:text-white text-sm">
+      <button onClick={skipReward} className="text-gray-400 hover:text-white text-xs">
         건너뛰기 (+ 15G)
       </button>
     </div>

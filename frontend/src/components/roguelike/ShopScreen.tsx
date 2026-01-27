@@ -22,25 +22,25 @@ export function ShopScreen() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full gap-6">
-      <div className="text-4xl">🛒</div>
-      <h2 className="text-xl font-bold">매점</h2>
-      <p className="text-gray-400">💰 {run.gold}G</p>
-      <div className="flex gap-4">
+    <div className="flex flex-col items-center justify-center h-full gap-3 p-3">
+      <div className="text-2xl">🛒</div>
+      <h2 className="text-base font-bold">매점</h2>
+      <p className="text-xs text-gray-400">💰 {run.gold}G</p>
+      <div className="flex gap-2">
         {shopCards.map(card => (
-          <div key={card.id} className="flex flex-col items-center gap-2">
+          <div key={card.id} className="flex flex-col items-center gap-1">
             <CardComponent cardId={card.id} playable={false} onPlay={() => {}} />
             <button
               disabled={run.gold < CARD_PRICE}
               onClick={() => buyCard(card.id)}
-              className={`px-3 py-1 rounded text-sm ${run.gold >= CARD_PRICE ? 'bg-yellow-700 hover:bg-yellow-600' : 'bg-gray-700 opacity-50'}`}
+              className={`px-2 py-0.5 rounded text-[10px] ${run.gold >= CARD_PRICE ? 'bg-yellow-700 hover:bg-yellow-600' : 'bg-gray-700 opacity-50'}`}
             >
               {CARD_PRICE}G 구매
             </button>
           </div>
         ))}
       </div>
-      <button onClick={handleBack} className="mt-4 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg">
+      <button onClick={handleBack} className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded text-xs">
         돌아가기
       </button>
     </div>

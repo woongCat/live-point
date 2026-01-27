@@ -22,16 +22,16 @@ export function CardComponent({ cardId, playable, onPlay }: CardComponentProps) 
     <button
       disabled={!playable}
       onClick={() => playable && onPlay(cardId)}
-      className={`w-28 h-40 rounded-lg border-2 p-2 flex flex-col text-left transition-all
+      className={`w-20 h-28 rounded border-2 p-1.5 flex flex-col text-left transition-all
         ${TAG_COLORS[card.tag]}
         ${playable ? 'hover:scale-105 hover:-translate-y-1 cursor-pointer bg-gray-800' : 'opacity-50 bg-gray-900'}`}
     >
-      <div className="flex justify-between text-xs mb-1">
-        <span className="font-bold">{card.name}</span>
-        <span className="bg-blue-600 rounded-full w-5 h-5 flex items-center justify-center">{card.cost}</span>
+      <div className="flex justify-between text-[9px] mb-0.5">
+        <span className="font-bold truncate">{card.name}</span>
+        <span className="bg-blue-600 rounded-full w-4 h-4 flex items-center justify-center text-[8px] shrink-0">{card.cost}</span>
       </div>
-      <div className="flex-1 text-[10px] text-gray-300">{card.description}</div>
-      <div className="text-[9px] text-gray-500 capitalize">{card.tag}</div>
+      <div className="flex-1 text-[8px] text-gray-300 leading-tight overflow-hidden">{card.description}</div>
+      <div className="text-[7px] text-gray-500 capitalize">{card.tag}</div>
     </button>
   );
 }

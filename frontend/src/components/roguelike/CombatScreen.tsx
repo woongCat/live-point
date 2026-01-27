@@ -31,14 +31,14 @@ export function CombatScreen() {
         />
       </div>
 
-      <div className="flex-1 flex items-center justify-center gap-8 px-4">
+      <div className="flex-1 flex items-center justify-center gap-3 px-2">
         <SeatGrid
           currentSeatId={combat.playerSeatId}
           energy={combat.energy}
           onMoveSeat={moveSeat}
         />
 
-        <div className="flex gap-4">
+        <div className="flex gap-2">
           {combat.enemies.map(enemy => (
             <EnemyDisplay
               key={enemy.id}
@@ -50,8 +50,8 @@ export function CombatScreen() {
         </div>
       </div>
 
-      <div className="border-t border-gray-700 pb-2">
-        <div className="flex items-center justify-center gap-4 p-2">
+      <div className="border-t border-gray-700">
+        <div className="flex items-center justify-center gap-2 p-1.5">
           <CardHand
             hand={combat.hand}
             energy={combat.energy}
@@ -59,7 +59,7 @@ export function CombatScreen() {
           />
           <button
             onClick={endPlayerTurn}
-            className="px-4 py-2 bg-yellow-700 hover:bg-yellow-600 rounded-lg text-sm font-bold"
+            className="px-2 py-1.5 bg-yellow-700 hover:bg-yellow-600 rounded text-[10px] font-bold shrink-0"
           >
             턴 종료
           </button>
