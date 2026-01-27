@@ -1,11 +1,12 @@
 // frontend/src/components/game/TrashGame.tsx
-import { useEffect, useCallback, useRef } from 'react';
+import { useEffect, useCallback, useRef, useState, useLayoutEffect } from 'react';
 import { useGameStore } from '../../stores/gameStore';
 import { GameCanvas } from './GameCanvas';
 import { PowerGauge } from './PowerGauge';
 import { ScoreBoard } from './ScoreBoard';
 import { GameConsentModal } from './GameConsentModal';
 import { GameEndModal } from './GameEndModal';
+import { useDraggable } from '../../hooks/useDraggable';
 import {
   calculateInitialVelocity,
   updateTrashPosition,
@@ -47,6 +48,25 @@ export function TrashGame({ onGameEnd }: TrashGameProps) {
 
   const frameRef = useRef<number | undefined>(undefined);
   const chargeRef = useRef<number | undefined>(undefined);
+
+  const [initialPosition, setInitialPosition] = useState({ x: 0, y: 0 });
+  const { position, setPosition, isDragging, elementRef, handleMouseDown } = useDraggable({
+    initialPosition,
+  });
+
+  // Calculate initial position (bottom-right) when game starts
+  useLayoutEffect(() => {
+    if (gameState.status === 'playing') {
+      const gameWidth = 600; // approximate width
+      const gameHeight = 400; // approximate height
+      const padding = 20;
+      const x = window.innerWidth - gameWidth - padding;
+      const y = window.innerHeight - gameHeight - padding - 90; // account for footer ad
+      const newPosition = { x: Math.max(padding, x), y: Math.max(padding, y) };
+      setInitialPosition(newPosition);
+      setPosition(newPosition);
+    }
+  }, [gameState.status, setPosition]);
 
   useEffect(() => {
     if (!isCharging || gameState.status !== 'playing') {
@@ -168,21 +188,36 @@ export function TrashGame({ onGameEnd }: TrashGameProps) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-      <div className="bg-white rounded-xl p-4 shadow-2xl flex gap-4">
-        <PowerGauge power={powerLevel} isCharging={isCharging} />
-        <div className="flex flex-col gap-2">
-          <GameCanvas trash={trash} bin={bin} />
-          <div className="text-center text-sm text-gray-500">
-            스페이스바를 꾹 눌러 파워 충전 - 떼면 발사
-          </div>
+    <div
+      ref={elementRef}
+      onMouseDown={handleMouseDown}
+      className="fixed z-50"
+      style={{
+        left: position.x,
+        top: position.y,
+        cursor: isDragging ? 'grabbing' : 'auto',
+      }}
+    >
+      <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
+        <div className="drag-handle bg-gray-100 px-4 py-2 cursor-grab flex items-center justify-between border-b border-gray-200">
+          <span className="font-medium text-gray-700">쓰레기 던지기</span>
+          <span className="text-xs text-gray-400">드래그하여 이동</span>
         </div>
-        <ScoreBoard
-          score={gameState.score}
-          stage={gameState.stage}
-          throws={gameState.throws}
-          hits={gameState.hits}
-        />
+        <div className="p-4 flex gap-4">
+          <PowerGauge power={powerLevel} isCharging={isCharging} />
+          <div className="flex flex-col gap-2">
+            <GameCanvas trash={trash} bin={bin} />
+            <div className="text-center text-sm text-gray-500">
+              스페이스바를 꾹 눌러 파워 충전 - 떼면 발사
+            </div>
+          </div>
+          <ScoreBoard
+            score={gameState.score}
+            stage={gameState.stage}
+            throws={gameState.throws}
+            hits={gameState.hits}
+          />
+        </div>
       </div>
     </div>
   );

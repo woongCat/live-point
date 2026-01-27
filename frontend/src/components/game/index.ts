@@ -5,3 +5,4 @@ export { PowerGauge } from './PowerGauge';
 export { ScoreBoard } from './ScoreBoard';
 export { GameConsentModal } from './GameConsentModal';
 export { GameEndModal } from './GameEndModal';
+export { GameStartButton } from './GameStartButton';
